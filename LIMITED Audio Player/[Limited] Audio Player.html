@@ -100,15 +100,7 @@
 <script>
     var input = document.getElementById("files");
     var audio = document.getElementById("player");
-input.onchange = function() {
-    var file = this.files;
-    var files = URL.createObjectURL(file[0]);
-        audio.src = files;
-        audio.volume = 0.5;
-        document.getElementById("volume_value").innerHTML = "0.5";
-        document.getElementById("play_button").style = "display:inline-block";
-        document.getElementById("pause_button").style = "display:none";
-    };
+    
     var play = document.getElementById("play_button");
     var pause = document.getElementById("pause_button");
     
@@ -116,6 +108,18 @@ input.onchange = function() {
     var volumecount = document.getElementById("volume_value");
     var volumedown = document.getElementById("volume_down");
     var animations = "pause";
+    
+    
+input.onchange = function() {
+    var file = this.files;
+    var files = URL.createObjectURL(file[0]);
+        audio.src = files;
+        audio.volume = 0.5;
+        volumecount.innerHTML = "0.5";
+        play.style = "display:inline-block";
+        pause.style = "display:none";
+        animations = "pause";
+    };
 volumeup.onmousedown = function() {
         audio.volume = audio.volume + 0.10;
         audio.volume = audio.volume.toFixed(2);
