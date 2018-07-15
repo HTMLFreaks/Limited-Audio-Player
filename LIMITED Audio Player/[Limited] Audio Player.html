@@ -116,22 +116,22 @@ input.onchange = function() {
     var file = this.files;
     var files = URL.createObjectURL(file[0]);
         audio.src = files;
-        audio.volume = 0.5;
-        volumecount.innerHTML = "0.5";
+        audio.volume = volume.value;
+        volumecount.innerHTML = "" + volume.value;
         play.style = "display:inline-block";
         pause.style = "display:none";
         animations = "pause";
     };
 volumeup.onmousedown = function() {
-        volume.stepup(0.1);
+        volume.stepUp(0.1);
         volume.value = volume.value;
         audio.volume = volume.value;
         volumecount.innerHTML = "" + volume.value;
     };
 volumedown.onmousedown = function() {
-        volume.stepdown(0.1);
+        volume.stepDown(0.1);
         volume.value = volume.value;
-        audio.volume = volume.value;
+        volume.value = audio.volume;
         volumecount.innerHTML = "" + volume.value;
     };
 
