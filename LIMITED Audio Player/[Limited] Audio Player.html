@@ -91,7 +91,7 @@
         </style>
     <body><pre>
      <div id="audio_holder" style="display: inline-block">
-       <audio crossorigin="anonymous" id="player" src="" hidden></audio>
+       <audio crossorigin="anonymous" id="player" src="" hidden></audio><input id="audio_volume" step="0.1" type="range" value="0.5" min="0" max="1" hidden></input>
        <button id="pause_button" style="display:none" class="buttons">||</button><button id="play_button" style="display:inline-block" class="buttons">></button><input id="files" type="file" style="display:inline-block">
        <button id="volume_up" class="buttons">+</button><output id="volume_value">0</output><button id="volume_down" class="buttons">-</button><input id="Time" type="range" value="0" min="0" max=""><output id="TimeFrame">0 Seconds</output>
        </div>
@@ -109,6 +109,8 @@
     var volumedown = document.getElementById("volume_down");
     var animations = "pause";
     
+    var volume = document.getElementById("audio_volume");
+    
     
 input.onchange = function() {
     var file = this.files;
@@ -121,7 +123,7 @@ input.onchange = function() {
         animations = "pause";
     };
 volumeup.onmousedown = function() {
-        audio.volume = audio.volume + 0.10;
+        volume.stepup(0.1)
         audio.volume = audio.volume.toFixed(2);
         volumecount.innerHTML = "" + audio.volume;
     };
