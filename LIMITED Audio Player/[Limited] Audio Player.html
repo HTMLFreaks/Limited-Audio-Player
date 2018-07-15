@@ -123,14 +123,16 @@ input.onchange = function() {
         animations = "pause";
     };
 volumeup.onmousedown = function() {
-        volume.stepup(0.1)
-        audio.volume = audio.volume.toFixed(2);
-        volumecount.innerHTML = "" + audio.volume;
+        volume.stepup(0.1);
+        volume.value = volume.value;
+        audio.volume = volume.value;
+        volumecount.innerHTML = "" + volume.value;
     };
 volumedown.onmousedown = function() {
-        audio.volume = audio.volume - 0.10;
-        audio.volume = audio.volume.toFixed(2);
-        volumecount.innerHTML = "" + audio.volume;
+        volume.stepdown(0.1);
+        volume.value = volume.value;
+        audio.volume = volume.value;
+        volumecount.innerHTML = "" + volume.value;
     };
 
 play.onmousedown = function() {
