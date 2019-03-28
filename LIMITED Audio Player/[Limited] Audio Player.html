@@ -92,8 +92,9 @@
     <body><pre>
      <div id="audio_holder" style="display: inline-block">
        <audio crossorigin="anonymous" id="player" src="" hidden></audio>
-       <button id="pause_button" style="display:none" class="buttons">||</button><button id="play_button" style="display:inline-block" class="buttons">></button><input id="files" type="file" style="display:inline-block">
+       <button id="pause_button" style="display:none" class="buttons">||</button><button id="play_button" style="display:inline-block" class="buttons">></button><input id="files" multiple type="file" style="display:inline-block">
        <button id="volume_up" class="buttons">+</button><output id="volume_value">0</output><button id="volume_down" class="buttons">-</button><input id="Time" type="range" value="0" min="0" max=""><output id="TimeFrame">0 Seconds</output>
+       <p id="audiocontext"></p>
        </div>
     </pre></body>
 </html>
@@ -108,17 +109,21 @@
     var volumecount = document.getElementById("volume_value");
     var volumedown = document.getElementById("volume_down");
     var animations = "pause";
-    
-    
+    var audioplaylist = [];
+    var audiocontext = document.getElementById("audiocontext");
 input.onchange = function() {
     var file = this.files;
-    var files = URL.createObjectURL(file[0]);
-        audio.src = files;
-        audio.volume = 0.5;
+    var filecount = file.length
+    for (var x = 0; x < filecount; x++) {
+	var files = URL.createObjectURL(file[x]);
+	audioplaylist.push(files);
+	audiocontext.innerHTML = audioplaylist;
+}
         volumecount.innerHTML = "0.5";
         play.style = "display:inline-block";
         pause.style = "display:none";
         animations = "pause";
+        audio.src = audioplaylist[Math.floor(Math.random() * audioplaylist.length)];
     };
 volumeup.onmousedown = function() {
         audio.volume = audio.volume + 0.10;
@@ -162,6 +167,8 @@ audio.onended = function() {
         document.getElementById("play_button").style = "display:inline-block";
         document.getElementById("pause_button").style = "display:none";
         animations = "pause";
+        audio.src = audioplaylist[Math.floor(Math.random() * audioplaylist.length)];
+        audio.play();
     };    
     var time = document.getElementById("Time");
     var timeframe = document.getElementById("TimeFrame");
