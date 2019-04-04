@@ -18,7 +18,10 @@
             box-shadow: 10px 10px 10px rgb(211,211,211) inset;
             cursor: pointer;
         }
-        
+        button:active {
+            font-size: 10px;
+            box-shadow: 10px 10px 10px rgb(211,211,211) outset;
+        }
         #Time:hover {
             cursor: e-resize;
         }
@@ -47,6 +50,10 @@
             position: relative;
             -webkit-animation: buttons 5s infinite;
             animation: buttons 5s infinite;
+        }
+        #audioButtons {
+            width: 1000px;
+            height: 10px;
         }
 @-webkit-keyframes buttons {
     25% {
@@ -93,12 +100,13 @@
      <div id="audio_holder" style="display: inline-block">
        <audio crossorigin="anonymous" id="player" src="" hidden></audio>
        <button id="pause_button" style="display:none" class="buttons">||</button><button id="play_button" style="display:inline-block" class="buttons">></button><input id="files" multiple type="file" style="display:inline-block">
+       <div id="audioButtons" style="display:inline-block"></div>
        <button id="volume_up" class="buttons">+</button><output id="volume_value">0</output><button id="volume_down" class="buttons">-</button><input id="Time" type="range" value="0" min="0" max=""><output id="TimeFrame">0 Seconds</output>
        <p id="audiocontext"></p>
        </div>
     </pre></body>
 </html>
-<script>
+<script type="text/javascript">
     var input = document.getElementById("files");
     var audio = document.getElementById("player");
     
@@ -111,20 +119,50 @@
     var animations = "pause";
     var audioplaylist = [];
     var audiocontext = document.getElementById("audiocontext");
+    var audiobuttons = document.getElementById("audioButtons");
+    
+    
 input.onchange = function() {
     var file = this.files;
     var filecount = file.length
     for (var x = 0; x < filecount; x++) {
 	var files = URL.createObjectURL(file[x]);
 	audioplaylist.push(files);
-	audiocontext.innerHTML = audioplaylist;
 }
+    var filecount2 = audioplaylist.length;
+    for (var x = 0; x < filecount2; x++) {
+	   var buttons = document.createElement("button");
+           buttons.innerHTML = "Song: " + x;
+           buttons.setAttribute("onClick","changeAudio(" + x + ")");
+           audiobuttons.appendChild(buttons); 
+    }
+         var button2 = document.createElement("button");
+           button2.innerHTML = "Clear Playlist";
+           button2.setAttribute("onClick","clearList()");
+           audiobuttons.appendChild(button2); 
         volumecount.innerHTML = "0.5";
         play.style = "display:inline-block";
         pause.style = "display:none";
         animations = "pause";
         audio.src = audioplaylist[Math.floor(Math.random() * audioplaylist.length)];
+        audiocontext.innerHTML = audio.src;
     };
+function clearList() {
+    audio.pause();
+    audio.src = "";
+    play.style = "display:inline-block";
+    pause.style = "display:none";
+    animations = "pause";
+    audiobuttons.innerHTML = "";
+    audioplaylist.length = "";
+    audiocontext.innerHTML = "";
+    input.value = "";
+}
+function changeAudio(value) {
+    audio.src = audioplaylist[value];
+    audio.play();
+    audiocontext.innerHTML = audio.src;
+}
 volumeup.onmousedown = function() {
         audio.volume = audio.volume + 0.10;
         audio.volume = audio.volume.toFixed(2);
@@ -169,6 +207,7 @@ audio.onended = function() {
         animations = "pause";
         audio.src = audioplaylist[Math.floor(Math.random() * audioplaylist.length)];
         audio.play();
+        audiocontext.innerHTML = audio.src;
     };    
     var time = document.getElementById("Time");
     var timeframe = document.getElementById("TimeFrame");
