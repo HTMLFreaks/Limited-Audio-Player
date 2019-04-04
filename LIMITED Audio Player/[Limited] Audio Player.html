@@ -129,6 +129,7 @@ input.onchange = function() {
 	var files = URL.createObjectURL(file[x]);
 	audioplaylist.push(files);
 }
+    audiobuttons.innerHTML = "";
     var filecount2 = audioplaylist.length;
     for (var x = 0; x < filecount2; x++) {
 	   var buttons = document.createElement("button");
