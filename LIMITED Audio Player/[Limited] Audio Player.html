@@ -56,12 +56,6 @@
             height: 10px;
         }
 @-webkit-keyframes buttons {
-    25% {
-        transform: rotate(360deg);
-    }
-    50% {
-        transform: rotate(-0deg);
-    }
     75% {
          transform: scaleX(0.5) scaleY(0.5);
     }
@@ -71,12 +65,6 @@
 }
 
 @keyframes buttons {
-    25% {
-        transform: rotate(360deg);
-    }
-    50% {
-        transform: rotate(-0deg);
-    }
     75% {
          transform: scaleX(0.5) scaleY(0.5);
     }
@@ -99,9 +87,9 @@
     <body><pre>
      <div id="audio_holder" style="display: inline-block">
        <audio crossorigin="anonymous" id="player" src="" hidden></audio>
-       <button id="pause_button" style="display:none" class="buttons">||</button><button id="play_button" style="display:inline-block" class="buttons">></button><input id="files" multiple type="file" style="display:inline-block">
+       <button id="pause_button" style="display:none" class="buttons">⏸️</button><button id="play_button" style="display:inline-block" class="buttons">▶️</button><input id="files" multiple type="file" style="display:inline-block">
        <div id="audioButtons" style="display:inline-block"></div>
-       <button id="volume_up" class="buttons">+</button><output id="volume_value">0</output><button id="volume_down" class="buttons">-</button><input id="Time" type="range" value="0" min="0" max=""><output id="TimeFrame">0 Seconds</output>
+       <button id="volume_up" class="buttons">🔆</button><output id="volume_value">0</output><button id="volume_down" class="buttons">🔅</button><input id="Time" type="range" value="0" min="0" max=""><output id="TimeFrame">0 Seconds</output>
        <p id="audiocontext"></p>
        </div>
     </pre></body>
@@ -120,7 +108,8 @@
     var audioplaylist = [];
     var audiocontext = document.getElementById("audiocontext");
     var audiobuttons = document.getElementById("audioButtons");
-    
+    var time = document.getElementById("Time");
+    var timeframe = document.getElementById("TimeFrame");
     
 input.onchange = function() {
     var file = this.files;
@@ -133,14 +122,15 @@ input.onchange = function() {
     var filecount2 = audioplaylist.length;
     for (var x = 0; x < filecount2; x++) {
 	   var buttons = document.createElement("button");
-           buttons.innerHTML = "Song: " + x;
+           buttons.innerHTML = "Song: " + "⏩";
            buttons.setAttribute("onClick","changeAudio(" + x + ")");
            audiobuttons.appendChild(buttons); 
     }
          var button2 = document.createElement("button");
-           button2.innerHTML = "Clear Playlist";
+           button2.innerHTML = "⏹️";
            button2.setAttribute("onClick","clearList()");
-           audiobuttons.appendChild(button2); 
+           audiobuttons.appendChild(button2);
+        audio.volume = "0.5";
         volumecount.innerHTML = "0.5";
         play.style = "display:inline-block";
         pause.style = "display:none";
@@ -158,6 +148,10 @@ function clearList() {
     audioplaylist.length = "";
     audiocontext.innerHTML = "";
     input.value = "";
+    volumecount.innerHTML = "0";
+    time.value = "0";
+    audio.volume = "0";
+    
 }
 function changeAudio(value) {
     audio.src = audioplaylist[value];
@@ -210,8 +204,6 @@ audio.onended = function() {
         audio.play();
         audiocontext.innerHTML = audio.src;
     };    
-    var time = document.getElementById("Time");
-    var timeframe = document.getElementById("TimeFrame");
 audio.ontimeupdate = function() {
         time.value = audio.currentTime;
         timeframe.innerHTML = audio.currentTime.toFixed(1) + " Seconds";
