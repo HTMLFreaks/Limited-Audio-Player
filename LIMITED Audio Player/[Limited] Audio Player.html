@@ -122,21 +122,21 @@ input.onchange = function() {
     var filecount2 = audioplaylist.length;
     for (var x = 0; x < filecount2; x++) {
 	   var buttons = document.createElement("button");
-           buttons.innerHTML = "Song: " + "⏩";
+           buttons.innerHTML = "Song: " + x;
            buttons.setAttribute("onClick","changeAudio(" + x + ")");
            audiobuttons.appendChild(buttons); 
     }
          var button2 = document.createElement("button");
-           button2.innerHTML = "⏹️";
+           button2.innerHTML = "Clear List";
            button2.setAttribute("onClick","clearList()");
            audiobuttons.appendChild(button2);
-        audio.volume = "0.5";
-        volumecount.innerHTML = "0.5";
-        play.style = "display:inline-block";
-        pause.style = "display:none";
-        animations = "pause";
-        audio.src = audioplaylist[Math.floor(Math.random() * audioplaylist.length)];
-        audiocontext.innerHTML = audio.src;
+           audio.volume = "0.5";
+           volumecount.innerHTML = "0.5";
+           play.style = "display:inline-block";
+           pause.style = "display:none";
+           animations = "pause";
+           audio.src = audioplaylist[Math.floor(Math.random() * audioplaylist.length)];
+           audiocontext.innerHTML = audio.src;
     };
 function clearList() {
     audio.pause();
@@ -155,8 +155,12 @@ function clearList() {
 }
 function changeAudio(value) {
     audio.src = audioplaylist[value];
+    audiobuttons["Song: " + value].innerHTML = "Song " + value + "...Playing";
     audio.play();
     audiocontext.innerHTML = audio.src;
+    play.style = "display:none";
+    pause.style = "display:inline-block";
+    animations = "play";
 }
 volumeup.onmousedown = function() {
         audio.volume = audio.volume + 0.10;
