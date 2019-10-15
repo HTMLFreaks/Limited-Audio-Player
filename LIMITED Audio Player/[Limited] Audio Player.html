@@ -155,7 +155,7 @@ function clearList() {
 }
 function changeAudio(value) {
     audio.src = audioplaylist[value];
-    audiobuttons["Song: " + value].innerHTML = "Song " + value + "...Playing";
+    audiobuttons.childNodes[value].innerHTML = "Song " + value + "...Playing";
     audio.play();
     audiocontext.innerHTML = audio.src;
     play.style = "display:none";
