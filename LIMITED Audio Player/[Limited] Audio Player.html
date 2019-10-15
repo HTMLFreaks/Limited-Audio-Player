@@ -182,7 +182,7 @@ play.onmousedown = function() {
         play.style = "display:none";
         pause.style = "display:inline-block";
         animations = "play";
-	var value1 = currentsong.value;
+	var value1 = currentsong;
 	audiobuttons.childNodes[value1].innerHTML = "Song: " + value1 + "...Playing";
     };
 pause.onmousedown = function() {
@@ -190,7 +190,7 @@ pause.onmousedown = function() {
         play.style = "display:inline-block";
         pause.style = "display:none";
         animations = "pause";
-	var value1 = currentsong.value;
+	var value1 = currentsong;
 	audiobuttons.childNodes[value1].innerHTML = "Song: " + value1;
     };
 
@@ -209,7 +209,7 @@ window.onmouseover = function() {
         }
     };
 audio.onended = function() {
-	var value1 = currentsong.value;
+	var value1 = currentsong;
 	audiobuttons.childNodes[value1].innerHTML = "Song: " + value1;
         document.getElementById("play_button").style = "display:inline-block";
         document.getElementById("pause_button").style = "display:none";
