@@ -110,7 +110,7 @@
     var audiobuttons = document.getElementById("audioButtons");
     var time = document.getElementById("Time");
     var timeframe = document.getElementById("TimeFrame");
-    var currentsong = [];
+    var currentsong = "";
     
 input.onchange = function() {
     var file = this.files;
@@ -152,13 +152,14 @@ function clearList() {
     volumecount.innerHTML = "0";
     time.value = "0";
     audio.volume = "0";
-    
+    currentsong = "";
 }
 function changeAudio(value) {
+    currentsong = "";
     audio.src = audioplaylist[value];
     var value3 = audiobuttons.childNodes[value];
     value3.innerHTML = "Song " + value + "...Playing";
-    currentsong = value3;
+    currentsong = "" + value3;
     audio.play();
     audiocontext.innerHTML = audio.src;
     play.style = "display:none";
@@ -216,6 +217,7 @@ audio.onended = function() {
         audio.src = audioplaylist[Math.floor(Math.random() * audioplaylist.length)];
         audio.play();
         audiocontext.innerHTML = audio.src;
+	currentsong = "";
     };    
 audio.ontimeupdate = function() {
         time.value = audio.currentTime;
