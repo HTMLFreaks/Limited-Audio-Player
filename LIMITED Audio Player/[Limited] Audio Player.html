@@ -183,14 +183,14 @@ play.onmousedown = function() {
         play.style = "display:none";
         pause.style = "display:inline-block";
         animations = "play";
-	audiobuttons.childNodes[currentvalue.value].innerHTML = "Song: " + currentvalue.value + "...Playing";
+	audiobuttons.childNodes[currentsong.value].innerHTML = "Song: " + currentsong.value + "...Playing";
     };
 pause.onmousedown = function() {
         audio.pause();
         play.style = "display:inline-block";
         pause.style = "display:none";
         animations = "pause";
-	audiobuttons.childNodes[currentvalue].innerHTML = "Song: " + currentvalue;
+	audiobuttons.childNodes[currentsong.value].innerHTML = "Song: " + currentsong.value;
     };
 
 window.onmouseover = function() {
@@ -208,7 +208,7 @@ window.onmouseover = function() {
         }
     };
 audio.onended = function() {
-	audiobuttons.childNodes[currentvalue.value].innerHTML = "Song: " + currentvalue.value;
+	audiobuttons.childNodes[currentsong.value].innerHTML = "Song: " + currentsong.value;
         document.getElementById("play_button").style = "display:inline-block";
         document.getElementById("pause_button").style = "display:none";
         animations = "pause";
