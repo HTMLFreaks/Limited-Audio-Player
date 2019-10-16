@@ -91,6 +91,7 @@
        <div id="audioButtons" style="display:inline-block"></div>
        <button id="volume_up" class="buttons">+</button><output id="volume_value">0</output><button id="volume_down" class="buttons">-</button><input id="Time" type="range" value="0" min="0" max=""><output id="TimeFrame">0 Seconds</output>
        <p id="audiocontext"></p>
+       <input id="currentsong_number" type="text" style="display:none">
        </div>
     </pre></body>
 </html>
@@ -110,8 +111,8 @@
     var audiobuttons = document.getElementById("audioButtons");
     var time = document.getElementById("Time");
     var timeframe = document.getElementById("TimeFrame");
-    var currentsong = "";
-    
+    var currentsong = document.getElementById("currentsong_number");
+	
 input.onchange = function() {
     var file = this.files;
     var filecount = file.length
@@ -152,14 +153,14 @@ function clearList() {
     volumecount.innerHTML = "0";
     time.value = "0";
     audio.volume = "0";
-    currentsong = "";
+    currentsong.value = "";
 }
 function changeAudio(value) {
-    currentsong = "";
+    currentsong.value = "";
     audio.src = audioplaylist[value];
     var value3 = audiobuttons.childNodes[value];
     value3.innerHTML = "Song " + value + "...Playing";
-    currentsong = "" + value3;
+    currentsong.value = "" + value3;
     audio.play();
     audiocontext.innerHTML = audio.src;
     play.style = "display:none";
@@ -182,16 +183,14 @@ play.onmousedown = function() {
         play.style = "display:none";
         pause.style = "display:inline-block";
         animations = "play";
-	var value1 = currentsong;
-	audiobuttons.childNodes[value1].innerHTML = "Song: " + value1 + "...Playing";
+	audiobuttons.childNodes[currentvalue.value].innerHTML = "Song: " + currentvalue.value + "...Playing";
     };
 pause.onmousedown = function() {
         audio.pause();
         play.style = "display:inline-block";
         pause.style = "display:none";
         animations = "pause";
-	var value1 = currentsong;
-	audiobuttons.childNodes[value1].innerHTML = "Song: " + value1;
+	audiobuttons.childNodes[currentvalue].innerHTML = "Song: " + currentvalue;
     };
 
 window.onmouseover = function() {
@@ -209,15 +208,14 @@ window.onmouseover = function() {
         }
     };
 audio.onended = function() {
-	var value1 = currentsong;
-	audiobuttons.childNodes[value1].innerHTML = "Song: " + value1;
+	audiobuttons.childNodes[currentvalue.value].innerHTML = "Song: " + currentvalue.value;
         document.getElementById("play_button").style = "display:inline-block";
         document.getElementById("pause_button").style = "display:none";
         animations = "pause";
         audio.src = audioplaylist[Math.floor(Math.random() * audioplaylist.length)];
         audio.play();
         audiocontext.innerHTML = audio.src;
-	currentsong = "";
+	currentsong.value = "";
     };    
 audio.ontimeupdate = function() {
         time.value = audio.currentTime;
