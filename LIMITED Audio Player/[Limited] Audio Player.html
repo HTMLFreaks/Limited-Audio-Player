@@ -160,7 +160,7 @@ function changeAudio(value) {
     audio.src = audioplaylist[value];
     var value3 = audiobuttons.childNodes[value];
     value3.innerHTML = "Song " + value + "...Playing";
-    currentsong.value = "" + value3;
+    currentsong.value = "" + value;
     audio.play();
     audiocontext.innerHTML = audio.src;
     play.style = "display:none";
