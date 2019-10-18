@@ -112,7 +112,6 @@
     var time = document.getElementById("Time");
     var timeframe = document.getElementById("TimeFrame");
     var currentsong = document.getElementById("currentsong_number");
-    var audiobutton_value = audiobuttons.childNodes[currentsong.value];
 input.onchange = function() {
     var file = this.files;
     var filecount = file.length
@@ -157,6 +156,7 @@ function clearList() {
     currentsong.value = "";
 }
 function changeAudio(value) {
+var audiobutton_value = audiobuttons.childNodes[currentsong.value];
     audiobutton_value.innerHTML = "Song: " + value;
     currentsong.value = "";
     audio.src = audioplaylist[value];
@@ -180,6 +180,7 @@ volumedown.onmousedown = function() {
     };
 
 play.onmousedown = function() {
+var audiobutton_value = audiobuttons.childNodes[currentsong.value];
         audio.play();
         play.style = "display:none";
         pause.style = "display:inline-block";
@@ -187,11 +188,12 @@ play.onmousedown = function() {
 	audiobutton_value.innerHTML = "Song: " + currentsong.value + "...Playing"
     };
 pause.onmousedown = function() {
+var audiobutton_value = audiobuttons.childNodes[currentsong.value];
         audio.pause();
         play.style = "display:inline-block";
         pause.style = "display:none";
         animations = "pause";
-	audiobuttons.childNodes[currentsong.value].innerHTML = "Song: " + currentsong.value;
+	audiobutton_value.innerHTML = "Song: " + currentsong.value;
     };
 
 window.onmouseover = function() {
@@ -209,6 +211,7 @@ window.onmouseover = function() {
         }
     };
 audio.onended = function() {
+var audiobutton_value = audiobuttons.childNodes[currentsong.value];
 	audiobutton_value.innerHTML = "Song: " + currentsong.value;
 	currentsong.value = "";
         document.getElementById("play_button").style = "display:inline-block";
