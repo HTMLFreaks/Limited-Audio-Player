@@ -112,6 +112,7 @@
     var time = document.getElementById("Time");
     var timeframe = document.getElementById("TimeFrame");
     var currentsong = document.getElementById("currentsong_number");
+	
 input.onchange = function() {
     var file = this.files;
     var filecount = file.length
@@ -156,11 +157,10 @@ function clearList() {
     currentsong.value = "";
 }
 function changeAudio(value) {
-var audiobutton_value = audiobuttons.childNodes[currentsong.value];
-    audiobutton_value.innerHTML = "Song: " + value;
+    audiobuttons.childNodes[currentsong.value].innerHTML = "Song: " + value;
     currentsong.value = "";
     audio.src = audioplaylist[value];
-    audiobutton_value.innerHTML = "Song: " + value + "...Playing";
+    audiobuttons.childNodes[currentsong.value].innerHTML = "Song: " + value + "...Playing";
     currentsong.value = "" + value;
     audio.play();
     audiocontext.innerHTML = audio.src;
@@ -180,20 +180,18 @@ volumedown.onmousedown = function() {
     };
 
 play.onmousedown = function() {
-var audiobutton_value = audiobuttons.childNodes[currentsong.value];
         audio.play();
         play.style = "display:none";
         pause.style = "display:inline-block";
         animations = "play";
-	audiobutton_value.innerHTML = "Song: " + currentsong.value + "...Playing"
+	audiobuttons.childNodes[currentsong.value].innerHTML = "Song: " + currentsong.value + "...Playing";
     };
 pause.onmousedown = function() {
-var audiobutton_value = audiobuttons.childNodes[currentsong.value];
         audio.pause();
         play.style = "display:inline-block";
         pause.style = "display:none";
         animations = "pause";
-	audiobutton_value.innerHTML = "Song: " + currentsong.value;
+	audiobuttons.childNodes[currentsong.value].innerHTML = "Song: " + currentsong.value;
     };
 
 window.onmouseover = function() {
@@ -211,8 +209,7 @@ window.onmouseover = function() {
         }
     };
 audio.onended = function() {
-var audiobutton_value = audiobuttons.childNodes[currentsong.value];
-	audiobutton_value.innerHTML = "Song: " + currentsong.value;
+	audiobuttons.childNodes[currentsong.value].innerHTML = "Song: " + currentsong.value;
 	currentsong.value = "";
         document.getElementById("play_button").style = "display:inline-block";
         document.getElementById("pause_button").style = "display:none";
@@ -221,6 +218,7 @@ var audiobutton_value = audiobuttons.childNodes[currentsong.value];
         audio.play();
         audiocontext.innerHTML = audio.src;
 	currentsong.value = "" + audio.src;
+	audiobuttons.childNodes[currentsong.value].innerHTML = "Song: " + currentSong.value + "...Playing";
     };    
 audio.ontimeupdate = function() {
         time.value = audio.currentTime;
