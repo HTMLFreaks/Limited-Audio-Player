@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        output {
+            font-size: 15px;
+        }
+        output:hover {
+            font-size: 20px;
+            box-shadow: 10px 10px 10px rgb(211,211,211) inset;
+            cursor: none;
+        }
+        input:hover {
+            font-size: 20px;
+            box-shadow: 10px 10px 10px rgb(211,211,211) inset;
+        }
+        button:hover {
+            font-size: 20px;
+            box-shadow: 10px 10px 10px rgb(211,211,211) inset;
+            cursor: pointer;
+        }
+        button:active {
+            font-size: 10px;
+            box-shadow: 10px 10px 10px rgb(211,211,211) outset;
+        }
+        #Time:hover {
+            cursor: e-resize;
+        }
+        #files:hover {
+            cursor: alias;
+        }
+        
+        #audio_holder {
+            background-color: rgba(0,0,0,0);
+            width: 590px;
+        }
+        input {
+            background-color: rgba(0,0,0,0);
+        }
+        button {
+            background-color: rgba(0,0,0,0);
+        }
+        
+        #audio_holder {
+            position: relative;
+            -webkit-animation: onopen 5s;
+            animation: onopen 5s;
+        }
+        
+        .buttons {
+            position: relative;
+            -webkit-animation: buttons 5s infinite;
+            animation: buttons 5s infinite;
+        }
+        #audioButtons {
+            width: 1000px;
+            height: 10px;
+        }
+@-webkit-keyframes buttons {
+    75% {
+         transform: scaleX(0.5) scaleY(0.5);
+    }
+    100% {
+         transform: scaleX(1) scaleY(1);
+    }
+}
+
+@keyframes buttons {
+    75% {
+         transform: scaleX(0.5) scaleY(0.5);
+    }
+    100% {
+         transform: scaleX(1) scaleY(1);
+    }
+}
+        
+
+@-webkit-keyframes onopen {
+    from {left: -700px;}
+    to {left: 0px;}
+}
+
+@keyframes onopen {
+    from {left: -700px;}
+    to {left: 0px;}
+}
+        </style>
+    <body><pre>
+     <div id="audio_holder" style="display: inline-block">
+       <audio crossorigin="anonymous" id="player" src="" hidden></audio>
+       <button id="pause_button" style="display:none" class="buttons">||</button><button id="play_button" style="display:inline-block" class="buttons">></button><input id="files" multiple type="file" style="display:inline-block">
+       <div id="audioButtons" style="display:inline-block"></div>
+       <button id="volume_up" class="buttons">+</button><output id="volume_value">0</output><button id="volume_down" class="buttons">-</button><input id="Time" type="range" value="0" min="0" max=""><output id="TimeFrame">0 Seconds</output>
+       <p id="audiocontext"></p>
+       <input id="currentsong_number" type="text" style="display:none">
+       </div>
+    </pre></body>
+</html>
+<script type="text/javascript">
+    var input = document.getElementById("files");
+    var audio = document.getElementById("player");
+    
+    var play = document.getElementById("play_button");
+    var pause = document.getElementById("pause_button");
+    
+    var volumeup = document.getElementById("volume_up");
+    var volumecount = document.getElementById("volume_value");
+    var volumedown = document.getElementById("volume_down");
+    var animations = "pause";
+    var audioplaylist = [];
+    var audiocontext = document.getElementById("audiocontext");
+    var audiobuttons = document.getElementById("audioButtons");
+    var time = document.getElementById("Time");
+    var timeframe = document.getElementById("TimeFrame");
+    var currentsong = document.getElementById("currentsong_number");
+	
+input.onchange = function() {
+    var file = this.files;
+    var filecount = file.length
+    for (var x = 0; x < filecount; x++) {
+	var files = URL.createObjectURL(file[x]);
+	audioplaylist.push(files);
+}
+    audiobuttons.innerHTML = "";
+    var filecount2 = audioplaylist.length;
+    for (var x = 0; x < filecount2; x++) {
+	   var buttons = document.createElement("button");
+           buttons.innerHTML = "Song: " + x;
+           buttons.setAttribute("onClick","changeAudio(" + x + ")");
+           audiobuttons.appendChild(buttons); 
+    }
+         var button2 = document.createElement("button");
+           button2.innerHTML = "Clear List";
+           button2.setAttribute("onClick","clearList()");
+           audiobuttons.appendChild(button2);
+           audio.volume = "0.5";
+           volumecount.innerHTML = "0.5";
+           play.style = "display:inline-block";
+           pause.style = "display:none";
+           animations = "pause";
+           audio.src = audioplaylist[Math.floor(Math.random() * audioplaylist.length)];
+	   currentsong.value = audioplaylist.indexOf(audio.src);
+           audiocontext.innerHTML = audio.src;
+    };
+function clearList() {
+    audio.pause();
+    audio.src = "";
+    play.style = "display:inline-block";
+    pause.style = "display:none";
+    animations = "pause";
+    audiobuttons.innerHTML = "";
+    audioplaylist.length = "";
+    audiocontext.innerHTML = "";
+    input.value = "";
+    volumecount.innerHTML = "0";
+    time.value = "0";
+    audio.volume = "0";
+    currentsong.value = "";
+}
+function changeAudio(value) {
+audiobuttons.childNodes[currentsong.value].innerHTML = "Song: " + currentsong.value;
+currentsong.value = "";
+audio.src = audioplaylist[value];
+currentsong.value = value;
+audiobuttons.childNodes[value].innerHTML = "Song: " + value + "...Playing";
+    audio.play();
+    audiocontext.innerHTML = audio.src;
+    play.style = "display:none";
+    pause.style = "display:inline-block";
+    animations = "play";
+}
+volumeup.onmousedown = function() {
+        audio.volume = audio.volume + 0.10;
+        audio.volume = audio.volume.toFixed(2);
+        volumecount.innerHTML = "" + audio.volume;
+    };
+volumedown.onmousedown = function() {
+        audio.volume = audio.volume - 0.10;
+        audio.volume = audio.volume.toFixed(2);
+        volumecount.innerHTML = "" + audio.volume;
+    };
+
+play.onmousedown = function() {
+        audio.play();
+        play.style = "display:none";
+        pause.style = "display:inline-block";
+        animations = "play";
+	audiobuttons.childNodes[currentsong.value].innerHTML = "Song: " + currentsong.value + "...Playing";
+    };
+pause.onmousedown = function() {
+        audio.pause();
+        play.style = "display:inline-block";
+        pause.style = "display:none";
+        animations = "pause";
+	audiobuttons.childNodes[currentsong.value].innerHTML = "Song: " + currentsong.value;
+    };
+
+window.onmouseover = function() {
+        if (animations == "pause") {
+                pause.classList.remove("buttons");
+                play.classList.remove("buttons");
+                volumedown.classList.remove("buttons");
+                volumeup.classList.remove("buttons");
+                    }
+        if (animations == "play") {
+                pause.classList.add("buttons");
+                play.classList.add("buttons");
+                volumedown.classList.add("buttons");
+                volumeup.classList.add("buttons");
+        }
+    };
+audio.onended = function() {
+	audiobuttons.childNodes[currentsong.value].innerHTML = "Song: " + currentsong.value;
+	currentsong.value = "";
+        document.getElementById("play_button").style = "display:inline-block";
+        document.getElementById("pause_button").style = "display:none";
+        animations = "pause";
+        audio.src = audioplaylist[Math.floor(Math.random() * audioplaylist.length)];
+        audio.play();
+        audiocontext.innerHTML = audio.src;
+	currentsong.value = audioplaylist.indexOf(audio.src);
+	audiobuttons.childNodes[currentsong.value].innerHTML = "Song: " + currentSong.value + "...Playing";
+    };    
+audio.ontimeupdate = function() {
+        time.value = audio.currentTime;
+        timeframe.innerHTML = audio.currentTime.toFixed(1) + " Seconds";
+        time.max = audio.duration;
+        };
+time.oninput = function() {
+        audio.currentTime = time.value;
+        };
+</script>
